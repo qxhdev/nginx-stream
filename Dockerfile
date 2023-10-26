@@ -12,7 +12,6 @@ RUN mkdir -p /opt/data && mkdir /www
 # Build dependencies.
 RUN	apk update && apk add	\
   binutils \
-  binutils-libs \
   build-base \
   ca-certificates \
   gcc \
