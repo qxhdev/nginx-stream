@@ -38,6 +38,7 @@ COPY ./nginx-http-flv-module /tmp/nginx-http-flv-module
 # Compile nginx with nginx-http-flv module.
 RUN cd /tmp/nginx-${NGINX_VERSION} && \
   ./configure \
+  CFLAGS="-Wno-implicit-fallthrough" \
   --prefix=/opt/nginx \
   --add-module=/tmp/nginx-http-flv-module \
   --conf-path=/opt/nginx/nginx.conf \
