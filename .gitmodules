@@ -1,0 +1,3 @@
+[submodule "nginx-http-flv-module"]
+	path = nginx-http-flv-module
+	url = https://github.com/winshining/nginx-http-flv-module.git
