@@ -1,8 +1,8 @@
 FROM alpine:3.4
 LABEL author Alfred Gutierrez <alf.g.jr@gmail.com>
 
-ENV NGINX_VERSION 1.13.9
-ENV FFMPEG_VERSION 3.4.2
+ENV NGINX_VERSION 1.9.9
+ENV FFMPEG_VERSION 6.0
 
 EXPOSE 1935
 EXPOSE 80
@@ -34,7 +34,7 @@ RUN cd /tmp && \
   tar zxf nginx-${NGINX_VERSION}.tar.gz && \
   rm nginx-${NGINX_VERSION}.tar.gz
 
-COPY . /tmp/nginx-http-flv-module
+COPY ./nginx-http-flv-module /tmp/nginx-http-flv-module
 
 # Compile nginx with nginx-http-flv module.
 RUN cd /tmp/nginx-${NGINX_VERSION} && \
@@ -91,6 +91,6 @@ ADD static /www/static
 
 RUN mkdir -p /var/log/nginx
 RUN  ln -sf /dev/stdout /var/log/nginx/access.log \
-     && ln -sf /dev/stderr /var/log/nginx/error.log
+  && ln -sf /dev/stderr /var/log/nginx/error.log
 
 CMD ["/opt/nginx/sbin/nginx"]
