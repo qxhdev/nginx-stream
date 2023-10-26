@@ -38,13 +38,14 @@ COPY ./nginx-http-flv-module /tmp/nginx-http-flv-module
 # Compile nginx with nginx-http-flv module.
 RUN cd /tmp/nginx-${NGINX_VERSION} && \
   ./configure \
-  CFLAGS="-Wno-implicit-fallthrough" \
   --prefix=/opt/nginx \
   --add-module=/tmp/nginx-http-flv-module \
   --conf-path=/opt/nginx/nginx.conf \
   --error-log-path=/opt/nginx/logs/error.log \
   --http-log-path=/opt/nginx/logs/access.log \
   --with-debug && \
+  ./configure \
+  CFLAGS="-Wno-implicit-fallthrough" && \
   cd /tmp/nginx-${NGINX_VERSION} && make && make install
 
 # FFmpeg dependencies.
