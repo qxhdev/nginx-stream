@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.8
 LABEL author Alfred Gutierrez <alf.g.jr@gmail.com>
 
 ENV NGINX_VERSION 1.9.9
