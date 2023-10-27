@@ -40,8 +40,8 @@ RUN apt-get install -y ffmpeg
 RUN rm -rf /var/cache/* /tmp/*
 
 # Add NGINX config and static files.
-ADD ./nginx-http-flv-module/nginx.conf /opt/nginx/nginx.conf
-ADD ./nginx-http-flv-module/static /www/static
+ADD ./nginx.conf /opt/nginx/nginx.conf
+ADD ./static /www/static
 
 RUN mkdir -p /var/log/nginx
 RUN  ln -sf /dev/stdout /var/log/nginx/access.log \
