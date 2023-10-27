@@ -1,5 +1,5 @@
-FROM alpine
-LABEL author Alfred Gutierrez <alf.g.jr@gmail.com>
+FROM ubuntu
+LABEL author swift
 
 ENV NGINX_VERSION 1.9.9
 ENV FFMPEG_VERSION 6.0
@@ -10,22 +10,7 @@ EXPOSE 80
 RUN mkdir -p /opt/data && mkdir /www
 
 # Build dependencies.
-RUN	apk update && apk add	\
-  binutils \
-  build-base \
-  ca-certificates \
-  gcc \
-  libc-dev \
-  libgcc \
-  make \
-  musl-dev \
-  openssl \
-  openssl-dev \
-  pcre \
-  pcre-dev \
-  pkgconf \
-  pkgconfig \
-  zlib-dev
+RUN apt update && apt-get install -y build-essential libpcre3-dev libssl-dev zlib1g-dev libgd-dev
 
 # Get nginx source.
 RUN cd /tmp && \
@@ -44,51 +29,17 @@ RUN cd /tmp/nginx-${NGINX_VERSION} && \
   --error-log-path=/opt/nginx/logs/error.log \
   --http-log-path=/opt/nginx/logs/access.log \
   --with-debug && \
-  ./configure \
-  CFLAGS="-Wno-implicit-fallthrough" && \
   cd /tmp/nginx-${NGINX_VERSION} && make && make install
 
-# FFmpeg dependencies.
-RUN apk add --update nasm yasm-dev lame-dev libogg-dev x264-dev libvpx-dev libvorbis-dev x265-dev freetype-dev libass-dev libwebp-dev rtmpdump-dev libtheora-dev opus-dev
-RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
-RUN apk add --update fdk-aac-dev
-
-# Get FFmpeg source.
-RUN cd /tmp/ && \
-  wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
-  tar zxf ffmpeg-${FFMPEG_VERSION}.tar.gz && rm ffmpeg-${FFMPEG_VERSION}.tar.gz
-
-# Compile ffmpeg.
-RUN cd /tmp/ffmpeg-${FFMPEG_VERSION} && \
-  ./configure \
-  --enable-version3 \
-  --enable-gpl \
-  --enable-nonfree \
-  --enable-small \
-  --enable-libmp3lame \
-  --enable-libx264 \
-  --enable-libx265 \
-  --enable-libvpx \
-  --enable-libtheora \
-  --enable-libvorbis \
-  --enable-libopus \
-  --enable-libfdk-aac \
-  --enable-libass \
-  --enable-libwebp \
-  --enable-librtmp \
-  --enable-postproc \
-  --enable-avresample \
-  --enable-libfreetype \
-  --enable-openssl \
-  --disable-debug && \
-  make && make install && make distclean
+# Inatall FFmpeg
+RUN apt-get install -y ffmpeg
 
 # Cleanup.
 RUN rm -rf /var/cache/* /tmp/*
 
 # Add NGINX config and static files.
-ADD nginx.conf /opt/nginx/nginx.conf
-ADD static /www/static
+ADD ./nginx-http-flv-module/nginx.conf /opt/nginx/nginx.conf
+ADD ./nginx-http-flv-module/static /www/static
 
 RUN mkdir -p /var/log/nginx
 RUN  ln -sf /dev/stdout /var/log/nginx/access.log \
