@@ -10,7 +10,10 @@ EXPOSE 80
 RUN mkdir -p /opt/data && mkdir /www
 
 # Build dependencies.
-RUN apt update && apt-get install -y build-essential libpcre3-dev libssl-dev zlib1g-dev libgd-dev
+RUN apt update
+RUN apt-get install -y wget
+RUN apt-get install -y build-essential
+RUN apt-get install -y libpcre3-dev libssl-dev zlib1g-dev libgd-dev
 
 # Get nginx source.
 RUN cd /tmp && \
