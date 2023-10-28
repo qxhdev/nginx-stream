@@ -42,7 +42,8 @@ RUN rm -rf /var/cache/* /tmp/*
 # Add NGINX config and static files.
 ADD ./nginx.conf /opt/nginx/nginx.conf
 ADD ./static /www/static
+ADD entrypoint.sh /
 
 RUN mkdir -p /var/log/nginx
 
-CMD ["/opt/nginx/sbin/nginx"]
+ENTRYPOINT [ "entrypoint.sh" ]

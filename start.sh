@@ -7,6 +7,7 @@ if [ ! -d "$BASE_DIR" ];then
   # 创建文件夹
   mkdir -p "$BASE_DIR"/script
   mkdir -p "$BASE_DIR"/logs
+  cp script/* "$BASE_DIR"/script
 fi
 
 docker stop nginx-stream || echo 'stop nginx-stream'
