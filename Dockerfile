@@ -46,4 +46,4 @@ ADD entrypoint.sh /
 
 RUN mkdir -p /var/log/nginx
 
-ENTRYPOINT [ "entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
